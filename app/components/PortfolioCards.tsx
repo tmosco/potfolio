@@ -11,7 +11,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { SocialButton } from ".";
@@ -22,7 +22,7 @@ import TuteriaVTwo from "../../public/tuteriatwo.png";
 
 type SingleCard = {
   name: string;
-  image: string;
+  image: StaticImageData;
   description: string;
   website: string;
 };
