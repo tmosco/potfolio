@@ -16,13 +16,12 @@ export const HeroSection = () => {
 
 
   const handleDownload = () => {
-    // const link = document.createElement('a');
-    // link.href = '/download/resume.pdf';
-    // link.download = 'resume.pdf';
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
-    console.log("downloaded")
+    const link = document.createElement('a');
+    link.href = '/download/resume.pdf';
+    link.download = 'resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
   return (
     <>
