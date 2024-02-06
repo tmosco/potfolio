@@ -50,7 +50,7 @@ export const Resume = () => {
 
   const isMobile = useBreakpointValue(
     { base: true, lg: false },
-    { ssr: false }
+    { ssr: true }
   );
 
   const InfoCard = ({ name, onClick }: InfoCardProps) => {
