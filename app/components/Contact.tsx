@@ -6,7 +6,6 @@ import {
   Divider,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
   Heading,
   Icon,
@@ -18,7 +17,6 @@ import {
   Stack,
   Text,
   Textarea,
-  Toast,
   VStack,
   useBreakpointValue,
   useToast,
@@ -27,10 +25,9 @@ import Image from "next/image";
 import { BsPerson } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 
-
-import ContactPic from "../../public/contact.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Icons, TextHeadings } from ".";
+import ContactPic from "../../public/contact.jpg";
 
 const Blur = (props: IconProps) => {
   return (
@@ -101,7 +98,7 @@ export const Contact = () => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
   ): void => {
     e.preventDefault();

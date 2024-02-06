@@ -2,17 +2,11 @@
 
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
-  useColorModeValue,
-  VisuallyHidden,
+  useColorModeValue
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import { MdOutlineEmail } from "react-icons/md";
-import { ReactNode } from "react";
-import { FaFacebook } from "react-icons/fa6";
 import { Icons } from ".";
 
 

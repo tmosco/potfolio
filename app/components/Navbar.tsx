@@ -1,25 +1,21 @@
 "use client";
 
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Flex,
   Avatar,
-  HStack,
-  Text,
-  IconButton,
+  Box,
   Button,
+  Flex,
+  HStack,
+  IconButton,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
-  useColorModeValue,
   Stack,
-  Heading,
+  Text,
+  useColorModeValue,
+  useDisclosure
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { HamburgerIcon, CloseIcon, DownloadIcon } from "@chakra-ui/icons";
 
 interface Props {
   children: React.ReactNode;

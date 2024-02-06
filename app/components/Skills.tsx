@@ -2,25 +2,14 @@
 
 import {
   Box,
-  Button,
   Container,
   Flex,
-  HStack,
   Heading,
   Progress,
   SimpleGrid,
-  Stack,
-  Text,
-  useBreakpointValue,
+  Text
 } from "@chakra-ui/react";
-import { ReactElement, useState } from "react";
-import { TextHeadings } from ".";
-
-interface FeatureProps {
-  title: string;
-  text: string;
-  icon: ReactElement;
-}
+import { ReactElement } from "react";
 
 const skills = [
   { name: "HTML", percent: 95, type: "front-end" },

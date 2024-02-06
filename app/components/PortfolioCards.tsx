@@ -12,13 +12,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { SocialButton } from ".";
 import BotTrader from "../../public/bot Trader.png";
 import TstoryBook from "../../public/reactstorybook .png";
 import Tuteria from "../../public/tuteria.png";
 import TuteriaVTwo from "../../public/tuteriatwo.png";
-import Link from "next/link";
 
 type SingleCard = {
   name: string;

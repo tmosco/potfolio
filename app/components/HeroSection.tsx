@@ -1,16 +1,15 @@
 "use client";
 
-import Head from "next/head";
 import {
   Box,
-  Heading,
-  Container,
-  Text,
   Button,
-  Stack,
+  Container,
+  Heading,
   Icon,
-  useColorModeValue,
+  Stack,
+  Text,
   createIcon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 export const HeroSection = () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, HStack, Heading, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { ResumeCard } from ".";
 
 const JobExperienceDetails = [

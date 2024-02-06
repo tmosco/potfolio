@@ -1,10 +1,9 @@
-import { Flex } from "@chakra-ui/react";
 import {
-  HeroSection,
-  Resume,
-  Footer,
-  PortfolioCards,
   Contact,
+  Footer,
+  HeroSection,
+  PortfolioCards,
+  Resume,
 } from "./components";
 
 export default function Home() {
