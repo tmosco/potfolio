@@ -97,10 +97,7 @@ export const Contact = () => {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: string
-  ): void => {
+  const handleInputChange = (e: any, field: string): void => {
     e.preventDefault();
     setInputField((prevInputField) => ({
       ...prevInputField,
