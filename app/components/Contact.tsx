@@ -5,6 +5,8 @@ import {
   Container,
   Divider,
   FormControl,
+  FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Heading,
   Icon,
@@ -16,17 +18,19 @@ import {
   Stack,
   Text,
   Textarea,
+  Toast,
   VStack,
   useBreakpointValue,
+  useToast,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { BsPerson } from "react-icons/bs";
-import {
-  MdOutlineEmail
-} from "react-icons/md";
+import { MdOutlineEmail } from "react-icons/md";
 
-import { Icons, TextHeadings } from ".";
+
 import ContactPic from "../../public/contact.jpg";
+import { useEffect, useState } from "react";
+import { Icons, TextHeadings } from ".";
 
 const Blur = (props: IconProps) => {
   return (
@@ -50,10 +54,109 @@ const Blur = (props: IconProps) => {
   );
 };
 
+type FieldsErrors = {
+  [key: string]: boolean;
+};
+type inputFieldProps = {
+  [key: string]: string;
+};
+
 export const Contact = () => {
+  const [inputField, setInputField] = useState<inputFieldProps>({});
+  const [fieldErrors, setFieldErrors] = useState<FieldsErrors>({});
+
+  console.log(fieldErrors);
+  console.log(inputField);
+  const toast = useToast();
+
+  const onSubmit = () => {
+    const fieldsErrors: FieldsErrors = {};
+    let hasError = false;
+
+    const fieldsToValidate = ["name", "email", "message"];
+
+    fieldsToValidate.forEach((field) => {
+      const value = inputField[field];
+      const isEmpty = !value || value.trim() === "";
+      fieldsErrors[field] = isEmpty;
+
+      if (isEmpty) {
+        hasError = true;
+      }
+    });
+
+    setFieldErrors(fieldsErrors);
+
+    if (hasError) {
+      console.log("Form has errors. Submission aborted.");
+    } else {
+      toast({
+        title: "Message Sent",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setInputField({ name: "", email: "", message: "" });
+    }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: string
+  ): void => {
+    e.preventDefault();
+    setInputField((prevInputField) => ({
+      ...prevInputField,
+      [field]: e.target.value,
+    }));
+  };
+
+  function InputField({ field }: { field: string }) {
+    return (
+      <FormControl id={field} isRequired isInvalid={fieldErrors[field]}>
+        <FormLabel>{field}</FormLabel>
+        {field !== "message" ? (
+          <InputGroup borderColor="#E0E1E7">
+            <InputLeftElement pointerEvents="none">
+              {field === "name" ? (
+                <BsPerson color="gray.800" />
+              ) : (
+                <MdOutlineEmail color="gray.800" />
+              )}
+            </InputLeftElement>
+            <Input
+              value={inputField[field]}
+              type={field}
+              onChange={(e) => handleInputChange(e, field)}
+              size="md"
+            />
+            {fieldErrors[inputField.name] && (
+              <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
+            )}
+          </InputGroup>
+        ) : (
+          <>
+            <Textarea
+              borderColor="gray.300"
+              _hover={{
+                borderRadius: "gray.300",
+              }}
+              placeholder="Message"
+              value={inputField[field]}
+              onChange={(e) => handleInputChange(e, field)}
+            />
+            {fieldErrors[inputField.name] && (
+              <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
+            )}
+          </>
+        )}
+      </FormControl>
+    );
+  }
+
   return (
     <>
-      <Divider my={5} id="contact"/>
+      <Divider my={5} id="contact" />
       <Box position={"relative"}>
         <TextHeadings name="Contact" />
 
@@ -102,40 +205,19 @@ export const Contact = () => {
             <Box as={"form"} mt={10}>
               <Box m={8} color="#0B0E3F">
                 <VStack spacing={5}>
-                  <FormControl id="name">
-                    <FormLabel>Your Name</FormLabel>
-                    <InputGroup borderColor="#E0E1E7">
-                      <InputLeftElement pointerEvents="none">
-                        <BsPerson color="gray.800" />
-                      </InputLeftElement>
-                      <Input type="text" size="md" />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id="name">
-                    <FormLabel>Mail</FormLabel>
-                    <InputGroup borderColor="#E0E1E7">
-                      <InputLeftElement pointerEvents="none">
-                        <MdOutlineEmail color="gray.800" />
-                      </InputLeftElement>
-                      <Input type="text" size="md" />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id="name">
-                    <FormLabel>Message</FormLabel>
-                    <Textarea
-                      borderColor="gray.300"
-                      _hover={{
-                        borderRadius: "gray.300",
-                      }}
-                      placeholder="message"
-                    />
-                  </FormControl>
-                  <FormControl id="name" float="right">
+                  {InputField({ field: "name" })}
+                  {InputField({ field: "email" })}
+                  {InputField({ field: "message" })}
+
+                  <FormControl id="submit" float="right">
                     <Button
                       color="#DCE2FF"
                       variant="solid"
                       bg="#0D74FF"
                       _hover={{}}
+                      onClick={() => {
+                        onSubmit();
+                      }}
                     >
                       Send Message
                     </Button>

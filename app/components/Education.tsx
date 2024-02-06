@@ -31,9 +31,9 @@ const EducationDetails = [
 ];
 const CertificateDetails = [
   {
-    title: "Masters in Information Technology",
-    school: "Robert Gordon University",
-    date: "2015 - 2016",
+    title: "The Complete 2023 Web Development Bootcamp",
+    school: "Udemy",
+    date: "2023",
   },
 ];
 

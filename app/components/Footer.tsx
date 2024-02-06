@@ -12,8 +12,8 @@ import {
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { ReactNode } from "react";
-import { Icons } from ".";
 import { FaFacebook } from "react-icons/fa6";
+import { Icons } from ".";
 
 
 

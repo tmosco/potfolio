@@ -18,6 +18,7 @@ import BotTrader from "../../public/bot Trader.png";
 import TstoryBook from "../../public/reactstorybook .png";
 import Tuteria from "../../public/tuteria.png";
 import TuteriaVTwo from "../../public/tuteriatwo.png";
+import Link from "next/link";
 
 type SingleCard = {
   name: string;
@@ -31,24 +32,23 @@ export function SingleCard({ name, image, description, website }: SingleCard) {
     <>
       <Center py={6}>
         <Box
-          // maxW={"450px"}
-          w={"full"}
           bg={useColorModeValue("white", "gray.900")}
           boxShadow={"2xl"}
           rounded={"md"}
           p={6}
           overflow={"hidden"}
         >
-          <Box
-            h={"180px"}
-            bg={"gray.100"}
-            mt={-6}
-            mx={-6}
-            mb={6}
-            pos={"relative"}
-          >
-            <Image src={image} fill alt="Example" />
-          </Box>
+          <Link href={website}>
+            <Box
+              bg={"gray.100"}
+              mt={-6}
+              mx={[-6, "auto", -6]}
+              mb={7}
+              pos={"relative"}
+            >
+              <Image src={image} alt="Example" />
+            </Box>
+          </Link>
           <Stack>
             <HStack justifyContent={"space-between"}>
               <Heading

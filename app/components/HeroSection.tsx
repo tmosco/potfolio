@@ -14,6 +14,16 @@ import {
 } from "@chakra-ui/react";
 
 export const HeroSection = () => {
+
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/download/resume.pdf';
+    link.download = 'resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <>
       <Container maxW={"3xl"} my={"280px"}>
@@ -54,8 +64,9 @@ export const HeroSection = () => {
               _hover={{
                 bg: "green.500",
               }}
+              onClick={handleDownload}
             >
-              Resume
+             Resume
             </Button>
 
             <Box>

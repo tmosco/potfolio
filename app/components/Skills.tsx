@@ -23,20 +23,26 @@ interface FeatureProps {
 }
 
 const skills = [
-  { name: "HTML", percent: 97, type: "front-end" },
-  { name: "CSS", percent: 97, type: "front-end" },
-  { name: "JAVASCRIPT", percent: 97, type: "front-end" },
-  { name: "REACT", percent: 97, type: "front-end" },
-  { name: "TYPESCRIPT", percent: 97, type: "front-end" },
-  { name: "SASS/ SCSS", percent: 97, type: "front-end" },
-  { name: "TAILWIND CSS", percent: 97, type: "front-end" },
-  { name: "NEXT JS", percent: 97, type: "front-end" },
-  { name: "NODE JS", percent: 97, type: "back-end" },
-  { name: "MONGODB", percent: 97, type: "back-end" },
-  { name: "PYTHON", percent: 97, type: "back-end" },
+  { name: "HTML", percent: 95, type: "front-end" },
+  { name: "CSS", percent: 90, type: "front-end" },
+  { name: "JAVASCRIPT", percent: 85, type: "front-end" },
+  { name: "REACT", percent: 95, type: "front-end" },
+  { name: "TYPESCRIPT", percent: 90, type: "front-end" },
+  { name: "SASS/ SCSS", percent: 75, type: "front-end" },
+  { name: "TAILWIND CSS", percent: 80, type: "front-end" },
+  { name: "NEXT JS", percent: 90, type: "front-end" },
+  { name: "NODE JS", percent: 82, type: "back-end" },
+  { name: "MONGODB", percent: 80, type: "back-end" },
+  { name: "PYTHON", percent: 83, type: "back-end" },
 ];
 
-export const SkillProgress = ({ name, percent }) => {
+export const SkillProgress = ({
+  name,
+  percent,
+}: {
+  name: string;
+  percent: number;
+}) => {
   return (
     <>
       <Flex justifyContent={"space-between"}>
@@ -47,7 +53,7 @@ export const SkillProgress = ({ name, percent }) => {
           {percent}
         </Text>
       </Flex>
-      <Progress value={percent} size="md" colorScheme="green" />
+      <Progress value={percent} size="md" colorScheme="green" hasStripe />
     </>
   );
 };

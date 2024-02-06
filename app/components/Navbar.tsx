@@ -32,6 +32,33 @@ const Links = [
   { name: "Contact", link: "#contact" },
 ];
 
+const NavLink = ({
+  name,
+  href,
+  onClick,
+}: {
+  name: string;
+  href: string;
+  onClick: () => void;
+}) => {
+  return (
+    <Box
+      as="a"
+      px={2}
+      py={1}
+      rounded={"md"}
+      _hover={{
+        textDecoration: "none",
+        bg: useColorModeValue("gray.200", "gray.700"),
+      }}
+      href={href}
+      onClick={onClick}
+    >
+      {name}
+    </Box>
+  );
+};
+
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -69,22 +96,16 @@ export const Navbar = () => {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Button
-              variant={"solid"}
-              colorScheme={"teal"}
-              size={"sm"}
-              mr={4}
-              leftIcon={<DownloadIcon />}
-            >
-              Download CV
-            </Button>
             <Menu>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
+              <MenuButton
+                as={Button}
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
+                minW={0}
+              >
+                <Avatar name="Omotayo Oyeniyi" src="" />
+              </MenuButton>
             </Menu>
           </Flex>
         </Flex>
@@ -93,7 +114,12 @@ export const Navbar = () => {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink
+                  key={link.name}
+                  href={link.link}
+                  name={link.name}
+                  onClick={onClose}
+                />
               ))}
             </Stack>
           </Box>
