@@ -2,7 +2,9 @@
 
 import {
   Box,
+  Button,
   Center,
+  chakra,
   Divider,
   HStack,
   Heading,
@@ -15,107 +17,110 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { SocialButton } from ".";
-import BotTrader from "../../public/bot Trader.png";
-import TstoryBook from "../../public/reactstorybook .png";
-import Tuteria from "../../public/tuteria.png";
-import TuteriaVTwo from "../../public/tuteriatwo.png";
+import { projects } from "../data/projects";
 
 type SingleCard = {
+  slug: string;
   name: string;
   image: StaticImageData;
   description: string;
   website: string;
+  stack: string[];
 };
 
-export function SingleCard({ name, image, description, website }: SingleCard) {
+export function SingleCard({
+  slug,
+  name,
+  image,
+  description,
+  website,
+  stack,
+}: SingleCard) {
   return (
-    <>
-      <Center py={6}>
-        <Box
-          bg={useColorModeValue("white", "gray.900")}
-          boxShadow={"2xl"}
-          rounded={"md"}
-          p={6}
-          overflow={"hidden"}
+    <Center py={6}>
+      <Box
+        bg={useColorModeValue("white", "gray.900")}
+        boxShadow={"2xl"}
+        rounded={"md"}
+        p={6}
+        overflow={"hidden"}
+      >
+        <chakra.a
+          href={website}
+          target="_blank"
+          rel="noopener noreferrer"
+          display={"block"}
         >
-          <Link href={website}>
-            <Box
-              bg={"gray.100"}
-              mt={-6}
-              mx={[-6, "auto", -6]}
-              mb={7}
-              pos={"relative"}
+          <Box
+            bg={"gray.100"}
+            mt={-6}
+            mx={[-6, "auto", -6]}
+            mb={7}
+            pos={"relative"}
+          >
+            <Image src={image} alt={`${name} project preview`} />
+          </Box>
+        </chakra.a>
+        <Stack spacing={4}>
+          <HStack justifyContent={"space-between"}>
+            <Heading
+              color={useColorModeValue("gray.700", "white")}
+              fontSize={"2xl"}
+              fontFamily={"body"}
             >
-              <Image src={image} alt="Example" />
-            </Box>
-          </Link>
-          <Stack>
-            <HStack justifyContent={"space-between"}>
-              <Heading
-                color={useColorModeValue("gray.700", "white")}
-                fontSize={"2xl"}
-                fontFamily={"body"}
-              >
-                {name}
-              </Heading>
+              {name}
+            </Heading>
 
-              <SocialButton label={"Sites"} href={website}>
-                <FaExternalLinkAlt />
-              </SocialButton>
-            </HStack>
-            <Text color={"gray.500"}>{description}</Text>
-          </Stack>
-        </Box>
-      </Center>
-    </>
+            <SocialButton label={"Sites"} href={website}>
+              <FaExternalLinkAlt />
+            </SocialButton>
+          </HStack>
+
+          <Text color={"gray.500"}>{description}</Text>
+
+          <HStack flexWrap="wrap" spacing={2}>
+            {stack.slice(0, 3).map((item) => (
+              <Text
+                key={item}
+                fontSize="xs"
+                color="green.600"
+                bg="green.50"
+                px={2}
+                py={1}
+                borderRadius="md"
+              >
+                {item}
+              </Text>
+            ))}
+          </HStack>
+
+          <HStack justifyContent="space-between">
+            <Button as={Link} href={`/projects/${slug}`} variant="outline" size="sm">
+              Case Study
+            </Button>
+            <chakra.a
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+              fontSize="sm"
+              color="blue.500"
+            >
+              Live Demo
+            </chakra.a>
+          </HStack>
+        </Stack>
+      </Box>
+    </Center>
   );
 }
 
 export const TextHeadings = ({ name = "Heading" }) => {
   return (
-    <>
-      <Center>
-        <Heading>{name}</Heading>
-      </Center>
-    </>
+    <Center>
+      <Heading>{name}</Heading>
+    </Center>
   );
 };
-
-const PortfolioDetails = [
-  {
-    name: "Tuteria Design Page",
-    website: " https://design-system.tuteria.com/",
-    description: "A page that show all the design used for the Tuteria app",
-    images: TstoryBook,
-  },
-  {
-    name: "Tuteria",
-    website: " https://tutors.tuteria.com/",
-    description: "A page that show all the design used for the Bot Trader app",
-    images: Tuteria,
-  },
-  {
-    name: "Bot Trader Design System",
-    website: "https://design-system.beeola.me/",
-    description:
-      "An Page that shows the design used in building the Bot Trader app.",
-    images: TstoryBook,
-  },
-  {
-    name: "Tuteria Version 2",
-    website: " https://v2.tuteria.com/",
-    description:
-      "A Tutorial site that brings tutor and teachers together to imporve",
-    images: TuteriaVTwo,
-  },
-  {
-    name: "Bot Trader",
-    website: " https://app-dev.beeola.me/#/home",
-    description:
-      "An Application that helps trade futures for BTC and other coins",
-    images: BotTrader,
-  },
-];
 
 export const PortfolioCards = () => {
   return (
@@ -124,12 +129,15 @@ export const PortfolioCards = () => {
       <Box maxW="5xl" mx="auto" position={"relative"} mt={"100px"}>
         <TextHeadings name={"My Projects"} />
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={5}>
-          {PortfolioDetails.map((card, i) => (
+          {projects.map((card, i) => (
             <SingleCard
+              key={`${card.name}-${i}`}
+              slug={card.slug}
               name={card.name}
-              image={card.images}
-              description={card.description}
+              image={card.image}
+              description={card.summary}
               website={card.website}
+              stack={card.stack}
             />
           ))}
         </SimpleGrid>

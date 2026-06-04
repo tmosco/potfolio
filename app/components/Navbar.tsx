@@ -12,14 +12,12 @@ import {
   MenuButton,
   Stack,
   Text,
+  useColorMode,
   useColorModeValue,
   useDisclosure
 } from "@chakra-ui/react";
+import { FaMoon, FaSun } from "react-icons/fa";
 import Link from "next/link";
-
-interface Props {
-  children: React.ReactNode;
-}
 
 const Links = [
   { name: "Home", link: "/" },
@@ -57,6 +55,8 @@ const NavLink = ({
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const isDarkMode = colorMode === "dark";
 
   return (
     <>
@@ -91,7 +91,15 @@ export const Navbar = () => {
               ))}
             </HStack>
           </HStack>
-          <Flex alignItems={"center"}>
+          <Flex alignItems={"center"} gap={3}>
+            <IconButton
+              aria-label={
+                isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+              }
+              icon={isDarkMode ? <FaSun /> : <FaMoon />}
+              onClick={toggleColorMode}
+              variant="ghost"
+            />
             <Menu>
               <MenuButton
                 as={Button}

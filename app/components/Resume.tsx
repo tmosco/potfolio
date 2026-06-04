@@ -5,6 +5,7 @@ import {
   Button,
   Divider,
   Stack,
+  useColorModeValue,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -16,7 +17,7 @@ type InfoCardProps = {
 };
 
 type DisplayButtonComponentProps = {
-  type: string;
+  type: "education" | "skills" | "experience";
 };
 
 const DisplayButtonComponent = ({ type }: DisplayButtonComponentProps) => {
@@ -39,14 +40,19 @@ const DisplayButtonComponent = ({ type }: DisplayButtonComponentProps) => {
   return component;
 };
 
-const ResumeButton = [
+const ResumeButton: {
+  placeHolder: string;
+  name: "education" | "skills" | "experience";
+}[] = [
   { placeHolder: "Education", name: "education" },
   { placeHolder: "Professional Skill", name: "skills" },
   { placeHolder: "Experience", name: "experience" },
 ];
 
 export const Resume = () => {
-  const [ButtonType, setButtonType] = useState("education");
+  const [buttonType, setButtonType] = useState<
+    "education" | "skills" | "experience"
+  >("education");
 
   const isMobile = useBreakpointValue(
     { base: true, lg: false },
@@ -54,6 +60,9 @@ export const Resume = () => {
   );
 
   const InfoCard = ({ name, onClick }: InfoCardProps) => {
+    const buttonBackground = useColorModeValue("white", "gray.700");
+    const buttonHover = useColorModeValue("green.50", "gray.600");
+
     return (
       <Button
         size="md"
@@ -62,6 +71,8 @@ export const Resume = () => {
         border="2px"
         borderColor="green.500"
         borderRadius={".5rem"}
+        bg={buttonBackground}
+        _hover={{ bg: buttonHover }}
         onClick={onClick}
       >
         {name}
@@ -90,7 +101,7 @@ export const Resume = () => {
             ))}
           </Stack>
 
-          <DisplayButtonComponent type={ButtonType} />
+          <DisplayButtonComponent type={buttonType} />
         </Box>
       </Box>
     </>

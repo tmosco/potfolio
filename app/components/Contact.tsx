@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Box,
   Button,
@@ -21,11 +22,11 @@ import {
   useBreakpointValue,
   useToast,
 } from "@chakra-ui/react";
+import type { ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
+import { useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
-
-import { useState } from "react";
 import { Icons, TextHeadings } from ".";
 import ContactPic from "../../public/contact.jpg";
 
@@ -51,65 +52,132 @@ const Blur = (props: IconProps) => {
   );
 };
 
-type FieldsErrors = {
-  [key: string]: boolean;
+type FormValues = {
+  name: string;
+  email: string;
+  message: string;
+  company: string;
 };
-type inputFieldProps = {
-  [key: string]: string;
+
+type FieldsErrors = Partial<Record<"name" | "email" | "message", boolean>>;
+
+const initialValues: FormValues = {
+  name: "",
+  email: "",
+  message: "",
+  company: "",
 };
 
 export const Contact = () => {
-  const [inputField, setInputField] = useState<inputFieldProps>({});
+  const [inputField, setInputField] = useState<FormValues>(initialValues);
   const [fieldErrors, setFieldErrors] = useState<FieldsErrors>({});
-
-  console.log(fieldErrors);
-  console.log(inputField);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
-  const onSubmit = () => {
-    const fieldsErrors: FieldsErrors = {};
-    let hasError = false;
-
-    const fieldsToValidate = ["name", "email", "message"];
+  const validateFields = () => {
+    const nextErrors: FieldsErrors = {};
+    const fieldsToValidate: ("name" | "email" | "message")[] = [
+      "name",
+      "email",
+      "message",
+    ];
 
     fieldsToValidate.forEach((field) => {
-      const value = inputField[field];
-      const isEmpty = !value || value.trim() === "";
-      fieldsErrors[field] = isEmpty;
-
-      if (isEmpty) {
-        hasError = true;
-      }
+      nextErrors[field] = inputField[field].trim() === "";
     });
 
-    setFieldErrors(fieldsErrors);
+    setFieldErrors(nextErrors);
+    return !Object.values(nextErrors).some(Boolean);
+  };
 
-    if (hasError) {
-      console.log("Form has errors. Submission aborted.");
-    } else {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!validateFields()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputField),
+      });
+
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(
+          result.message ??
+            "Something went wrong while sending your message."
+        );
+      }
+
       toast({
-        title: "Message Sent",
+        title: "Message sent",
+        description: "Thanks for reaching out — I’ll get back to you soon.",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
-      setInputField({ name: "", email: "", message: "" });
+      setInputField(initialValues);
+      setFieldErrors({});
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while sending your message.";
+
+      toast({
+        title: "Unable to send message",
+        description: message,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleInputChange = (e: any, field: string): void => {
-    e.preventDefault();
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: keyof FormValues
+  ) => {
     setInputField((prevInputField) => ({
       ...prevInputField,
-      [field]: e.target.value,
+      [field]: event.target.value,
     }));
+
+    if (field !== "company") {
+      setFieldErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: false,
+      }));
+    }
   };
 
-  function InputField({ field }: { field: string }) {
+  const InputField = ({ field }: { field: "name" | "email" | "message" }) => {
+    const isMessage = field === "message";
+
     return (
       <FormControl id={field} isRequired isInvalid={fieldErrors[field]}>
-        <FormLabel>{field}</FormLabel>
-        {field !== "message" ? (
+        <FormLabel textTransform="capitalize">{field}</FormLabel>
+        {isMessage ? (
+          <Textarea
+            borderColor="gray.300"
+            _hover={{
+              borderColor: "gray.400",
+            }}
+            placeholder="Tell me a bit about your project or opportunity"
+            value={inputField[field]}
+            onChange={(event) => handleInputChange(event, field)}
+          />
+        ) : (
           <InputGroup borderColor="#E0E1E7">
             <InputLeftElement pointerEvents="none">
               {field === "name" ? (
@@ -120,33 +188,18 @@ export const Contact = () => {
             </InputLeftElement>
             <Input
               value={inputField[field]}
-              type={field}
-              onChange={(e) => handleInputChange(e, field)}
+              type={field === "email" ? "email" : "text"}
+              onChange={(event) => handleInputChange(event, field)}
               size="md"
             />
-            {fieldErrors[inputField.name] && (
-              <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
-            )}
           </InputGroup>
-        ) : (
-          <>
-            <Textarea
-              borderColor="gray.300"
-              _hover={{
-                borderRadius: "gray.300",
-              }}
-              placeholder="Message"
-              value={inputField[field]}
-              onChange={(e) => handleInputChange(e, field)}
-            />
-            {fieldErrors[inputField.name] && (
-              <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
-            )}
-          </>
         )}
+        {fieldErrors[field] ? (
+          <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
+        ) : null}
       </FormControl>
     );
-  }
+  };
 
   return (
     <>
@@ -162,7 +215,12 @@ export const Contact = () => {
           py={{ base: 10, sm: 20, lg: 10 }}
         >
           <Box>
-            <Image src={ContactPic} alt="contact" height={400} width={400} />
+            <Image
+              src={ContactPic}
+              alt="Omotayo Oyeniyi portrait"
+              height={400}
+              width={400}
+            />
 
             <VStack
               w="400px"
@@ -174,20 +232,42 @@ export const Contact = () => {
               <Heading lineHeight={1.1} fontSize={"4xl"}>
                 Omotayo Oyeniyi
               </Heading>
-              <Text>Full stack Developer</Text>
+              <Text>Full-Stack Software Engineer</Text>
               <Text>
-                Full-stack developer with a keen interest in the latest
-                technology and a passion for coding. Let's collaborate to build
-                innovative solutions!
+                I build production-ready systems across frontend, backend, and
+                DevOps workflows — from React interfaces to Python and Node.js
+                services, Docker environments, CI/CD pipelines, and technical
+                documentation.
               </Text>
-              <Text>Phone : +2349060998169</Text>
-              <Text>Email : Tayotomioyeniyi@gmail.com</Text>
+              <Text>
+                Phone:{" "}
+                <Box
+                  as="a"
+                  href="tel:+2349060998169"
+                  color="blue.500"
+                  textDecoration="underline"
+                >
+                  +234 906 099 8169
+                </Box>
+              </Text>
+              <Text>
+                Email:{" "}
+                <Box
+                  as="a"
+                  href="mailto:tayotomioyeniyi@gmail.com"
+                  color="blue.500"
+                  textDecoration="underline"
+                >
+                  tayotomioyeniyi@gmail.com
+                </Box>
+              </Text>
               <Box>
-                <Text> Find me in</Text>
+                <Text>Find me on</Text>
               </Box>
               <Icons />
             </VStack>
           </Box>
+
           <Stack
             bg={"gray.50"}
             rounded={"xl"}
@@ -196,32 +276,48 @@ export const Contact = () => {
             maxW={{ lg: "lg" }}
             boxShadow={"base"}
           >
-            <Box as={"form"} mt={10}>
+            <Box as={"form"} mt={10} onSubmit={onSubmit}>
               <Box m={8} color="#0B0E3F">
                 <VStack spacing={5}>
-                  {InputField({ field: "name" })}
-                  {InputField({ field: "email" })}
-                  {InputField({ field: "message" })}
+                  <InputField field="name" />
+                  <InputField field="email" />
+                  <Input
+                    type="text"
+                    value={inputField.company}
+                    onChange={(event) => handleInputChange(event, "company")}
+                    autoComplete="off"
+                    tabIndex={-1}
+                    position="absolute"
+                    opacity={0}
+                    pointerEvents="none"
+                    aria-hidden="true"
+                  />
+                  <InputField field="message" />
 
                   <FormControl id="submit" float="right">
                     <Button
+                      type="submit"
+                      isLoading={isSubmitting}
+                      loadingText="Sending"
                       color="#DCE2FF"
                       variant="solid"
                       bg="#0D74FF"
                       _hover={{}}
-                      onClick={() => {
-                        onSubmit();
-                      }}
                     >
                       Send Message
                     </Button>
                   </FormControl>
+                  <Text fontSize="sm" color="gray.500" textAlign="center">
+                    Need help with full-stack delivery, CI/CD, containerized
+                    deployments, or frontend architecture? Send a message and
+                    let&apos;s talk.
+                  </Text>
                 </VStack>
               </Box>
             </Box>
-            form
           </Stack>
         </Container>
+
         <Blur
           position={"absolute"}
           top={-10}

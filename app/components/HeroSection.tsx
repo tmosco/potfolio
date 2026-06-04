@@ -13,12 +13,10 @@ import {
 } from "@chakra-ui/react";
 
 export const HeroSection = () => {
-
-
   const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/download/resume.pdf';
-    link.download = 'resume.pdf';
+    const link = document.createElement("a");
+    link.href = "/download/OyeniyiOmotayo_cv.pdf";
+    link.download = "OyeniyiOmotayo_cv.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -37,24 +35,35 @@ export const HeroSection = () => {
             fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
             lineHeight={"110%"}
           >
-            I am Omotayo Oyeniyi
+            Hi, I&apos;m Omotayo Oyeniyi.
             <br />
             <Text as={"span"} color={"green.400"}>
-              a Software Devloper
+              A Full-Stack Software Engineer
             </Text>
           </Heading>
           <Text color={"gray.500"}>
-            Passionate Full-Stack Developer with a love for technology and a
-            knack for staying updated on the latest advancements. Skilled in
-            creating innovative solutions through software development.
+            I&apos;m a full-stack engineer with 7+ years of experience building
+            production systems across React, Node.js, Python, Docker, CI/CD,
+            and Linux environments. I enjoy shipping reliable products, writing
+            clear technical documentation, and solving complex problems across
+            the stack.
           </Text>
           <Stack
-            direction={"column"}
+            direction={{ base: "column", sm: "row" }}
             spacing={3}
             align={"center"}
             alignSelf={"center"}
             position={"relative"}
           >
+            <Button
+              as={"a"}
+              href={"#projects"}
+              rounded={"full"}
+              px={6}
+              variant={"outline"}
+            >
+              View My Projects
+            </Button>
             <Button
               colorScheme={"green"}
               bg={"green.400"}
@@ -65,7 +74,7 @@ export const HeroSection = () => {
               }}
               onClick={handleDownload}
             >
-             Resume
+              Download CV
             </Button>
 
             <Box>
@@ -85,7 +94,7 @@ export const HeroSection = () => {
                 top={"-15px"}
                 transform={"rotate(10deg)"}
               >
-                Download resume here
+                CV download
               </Text>
             </Box>
           </Stack>
