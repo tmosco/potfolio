@@ -10,6 +10,7 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjectBySlug, projects } from "../../data/projects";
@@ -49,15 +50,49 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   return (
     <Container maxW="4xl" py={32}>
       <Stack spacing={8}>
-        <Box>
-          <Text color="green.500" fontWeight="semibold">
-            Project Case Study
-          </Text>
-          <Heading mt={2}>{project.name}</Heading>
-          <Text mt={4} color="gray.600">
-            {project.summary}
-          </Text>
-        </Box>
+        <Stack
+          spacing={6}
+          borderWidth="1px"
+          borderColor="chakra-border-color"
+          borderRadius="2xl"
+          overflow="hidden"
+          bg="chakra-subtle-bg"
+        >
+          <Box position="relative" minH={{ base: "240px", md: "360px" }}>
+            <Image
+              src={project.image}
+              alt={`${project.name} case study preview`}
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </Box>
+
+          <Stack spacing={4} px={{ base: 6, md: 8 }} pb={{ base: 6, md: 8 }}>
+            <Text color="green.500" fontWeight="semibold" letterSpacing="wide">
+              Project Case Study
+            </Text>
+            <Heading>{project.name}</Heading>
+            <Text color="chakra-subtle-text" fontSize="lg">
+              {project.summary}
+            </Text>
+            <HStack spacing={3} flexWrap="wrap">
+              {project.stack.map((item) => (
+                <Box
+                  key={item}
+                  px={3}
+                  py={1}
+                  borderRadius="full"
+                  bg="whiteAlpha.700"
+                  _dark={{ bg: "whiteAlpha.200" }}
+                  fontSize="sm"
+                >
+                  {item}
+                </Box>
+              ))}
+            </HStack>
+          </Stack>
+        </Stack>
 
         <HStack spacing={4} flexWrap="wrap">
           <Button as={Link} href="/" variant="outline">
@@ -92,55 +127,35 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             <Heading size="md" mb={2}>
               Role
             </Heading>
-            <Text color="gray.600">{project.role}</Text>
+            <Text color="chakra-subtle-text">{project.role}</Text>
           </Box>
 
           <Box>
             <Heading size="md" mb={2}>
               Problem
             </Heading>
-            <Text color="gray.600">{project.problem}</Text>
+            <Text color="chakra-subtle-text">{project.problem}</Text>
           </Box>
 
           <Box>
             <Heading size="md" mb={2}>
               What I Built
             </Heading>
-            <Text color="gray.600">{project.solution}</Text>
+            <Text color="chakra-subtle-text">{project.solution}</Text>
           </Box>
 
           <Box>
             <Heading size="md" mb={2}>
               Technical Challenge
             </Heading>
-            <Text color="gray.600">{project.challenge}</Text>
-          </Box>
-
-          <Box>
-            <Heading size="md" mb={2}>
-              Stack
-            </Heading>
-            <HStack spacing={3} flexWrap="wrap">
-              {project.stack.map((item) => (
-                <Box
-                  key={item}
-                  px={3}
-                  py={1}
-                  borderRadius="full"
-                  bg="gray.100"
-                  fontSize="sm"
-                >
-                  {item}
-                </Box>
-              ))}
-            </HStack>
+            <Text color="chakra-subtle-text">{project.challenge}</Text>
           </Box>
 
           <Box>
             <Heading size="md" mb={2}>
               Outcome
             </Heading>
-            <UnorderedList color="gray.600" spacing={2}>
+            <UnorderedList color="chakra-subtle-text" spacing={2}>
               {project.outcome.map((item) => (
                 <ListItem key={item}>{item}</ListItem>
               ))}
@@ -151,7 +166,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             <Heading size="md" mb={2}>
               What I’d Improve Next
             </Heading>
-            <Text color="gray.600">{project.nextStep}</Text>
+            <Text color="chakra-subtle-text">{project.nextStep}</Text>
           </Box>
         </Stack>
       </Stack>

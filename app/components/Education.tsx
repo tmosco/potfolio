@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
   UnorderedList,
+  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 
@@ -49,6 +50,10 @@ type ResumeCardProps = {
 };
 
 export const ResumeCard = ({ title, details }: ResumeCardProps) => {
+  const cardBackground = useColorModeValue("white", "gray.700");
+  const cardBorder = useColorModeValue("gray.200", "gray.600");
+  const secondaryText = useColorModeValue("gray.600", "gray.200");
+
   return (
     <>
       <Heading textAlign={"center"}> {title}</Heading>
@@ -58,21 +63,22 @@ export const ResumeCard = ({ title, details }: ResumeCardProps) => {
           my="20px"
           boxShadow="lg"
           borderRadius=".5rem"
-          cursor={"pointer"}
+          borderWidth="1px"
+          borderColor={cardBorder}
         >
-          <Stack spacing={2} backgroundColor="gray.200" py={3} px={8}>
+          <Stack spacing={2} backgroundColor={cardBackground} py={3} px={8}>
             <Heading as="h4" size="md">
               {x.title}
             </Heading>
             <HStack>
-              <Text>{x.school || x.company}</Text>
-              <Text>{`(${x.date})`}</Text>
+              <Text color={secondaryText}>{x.school || x.company}</Text>
+              <Text color={secondaryText}>{`(${x.date})`}</Text>
             </HStack>
             {x.description && (
               <VStack align="start" w="full">
                 {x.description.map((desc, i) => (
                   <UnorderedList key={i}>
-                    <ListItem>{desc}</ListItem>
+                    <ListItem color={secondaryText}>{desc}</ListItem>
                   </UnorderedList>
                 ))}
               </VStack>
