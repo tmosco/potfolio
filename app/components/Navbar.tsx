@@ -17,10 +17,6 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 
-interface Props {
-  children: React.ReactNode;
-}
-
 const Links = [
   { name: "Home", link: "/" },
   { name: "Projects", link: "#projects" },
@@ -94,7 +90,7 @@ export const Navbar = () => {
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton
-                as={Button}
+              as={Button}
                 rounded={"full"}
                 variant={"link"}
                 cursor={"pointer"}

@@ -54,14 +54,13 @@ export const ResumeCard = ({ title, details }: ResumeCardProps) => {
       <Heading textAlign={"center"}> {title}</Heading>
       {details?.map((x, i) => (
         <Box
-          key={i}
+          key={`${x.title}-${i}`}
           my="20px"
-          // _hover={{ backgroundColor: "blue", color: "red" }}
           boxShadow="lg"
           borderRadius=".5rem"
           cursor={"pointer"}
         >
-          <Stack spacing={2} backgroundColor="grey.200" py={3} px={8}>
+          <Stack spacing={2} backgroundColor="gray.200" py={3} px={8}>
             <Heading as="h4" size="md">
               {x.title}
             </Heading>

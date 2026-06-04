@@ -9,7 +9,6 @@ import {
   SimpleGrid,
   Text
 } from "@chakra-ui/react";
-import { ReactElement } from "react";
 
 const skills = [
   { name: "HTML", percent: 95, type: "front-end" },
@@ -39,7 +38,7 @@ export const SkillProgress = ({
           {name}
         </Text>
         <Text py={3} fontSize={"small"}>
-          {percent}
+          {percent}%
         </Text>
       </Flex>
       <Progress value={percent} size="md" colorScheme="green" hasStripe />

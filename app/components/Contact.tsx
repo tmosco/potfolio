@@ -21,6 +21,7 @@ import {
   useBreakpointValue,
   useToast,
 } from "@chakra-ui/react";
+import type { ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import { BsPerson } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
@@ -51,26 +52,36 @@ const Blur = (props: IconProps) => {
   );
 };
 
-type FieldsErrors = {
-  [key: string]: boolean;
+type FieldsErrors = Partial<Record<keyof FormValues, boolean>>;
+
+type FormValues = {
+  name: string;
+  email: string;
+  message: string;
 };
-type inputFieldProps = {
-  [key: string]: string;
+
+const initialValues: FormValues = {
+  name: "",
+  email: "",
+  message: "",
 };
 
 export const Contact = () => {
-  const [inputField, setInputField] = useState<inputFieldProps>({});
+  const [inputField, setInputField] = useState<FormValues>(initialValues);
   const [fieldErrors, setFieldErrors] = useState<FieldsErrors>({});
-
-  console.log(fieldErrors);
-  console.log(inputField);
   const toast = useToast();
 
-  const onSubmit = () => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     const fieldsErrors: FieldsErrors = {};
     let hasError = false;
 
-    const fieldsToValidate = ["name", "email", "message"];
+    const fieldsToValidate: (keyof FormValues)[] = [
+      "name",
+      "email",
+      "message",
+    ];
 
     fieldsToValidate.forEach((field) => {
       const value = inputField[field];
@@ -85,27 +96,41 @@ export const Contact = () => {
     setFieldErrors(fieldsErrors);
 
     if (hasError) {
-      console.log("Form has errors. Submission aborted.");
-    } else {
-      toast({
-        title: "Message Sent",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-      setInputField({ name: "", email: "", message: "" });
+      return;
     }
+
+    const subject = encodeURIComponent(`Portfolio inquiry from ${inputField.name}`);
+    const body = encodeURIComponent(
+      `Name: ${inputField.name}\nEmail: ${inputField.email}\n\n${inputField.message}`
+    );
+
+    window.location.href = `mailto:tayotomioyeniyi@gmail.com?subject=${subject}&body=${body}`;
+
+    toast({
+      title: "Opening your email app",
+      description: "Your message is ready to send.",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    setInputField(initialValues);
   };
 
-  const handleInputChange = (e: any, field: string): void => {
-    e.preventDefault();
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: keyof FormValues
+  ): void => {
     setInputField((prevInputField) => ({
       ...prevInputField,
       [field]: e.target.value,
     }));
+    setFieldErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: false,
+    }));
   };
 
-  function InputField({ field }: { field: string }) {
+  function InputField({ field }: { field: keyof FormValues }) {
     return (
       <FormControl id={field} isRequired isInvalid={fieldErrors[field]}>
         <FormLabel>{field}</FormLabel>
@@ -120,29 +145,24 @@ export const Contact = () => {
             </InputLeftElement>
             <Input
               value={inputField[field]}
-              type={field}
+              type={field === "email" ? "email" : "text"}
               onChange={(e) => handleInputChange(e, field)}
               size="md"
             />
-            {fieldErrors[inputField.name] && (
-              <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
-            )}
           </InputGroup>
         ) : (
-          <>
-            <Textarea
-              borderColor="gray.300"
-              _hover={{
-                borderRadius: "gray.300",
-              }}
-              placeholder="Message"
-              value={inputField[field]}
-              onChange={(e) => handleInputChange(e, field)}
-            />
-            {fieldErrors[inputField.name] && (
-              <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
-            )}
-          </>
+          <Textarea
+            borderColor="gray.300"
+            _hover={{
+              borderColor: "gray.400",
+            }}
+            placeholder="Message"
+            value={inputField[field]}
+            onChange={(e) => handleInputChange(e, field)}
+          />
+        )}
+        {fieldErrors[field] && (
+          <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
         )}
       </FormControl>
     );
@@ -176,14 +196,34 @@ export const Contact = () => {
               </Heading>
               <Text>Full stack Developer</Text>
               <Text>
-                Full-stack developer with a keen interest in the latest
-                technology and a passion for coding. Let's collaborate to build
-                innovative solutions!
+                I build thoughtful web experiences with a strong focus on
+                usability, maintainable code, and polished interfaces. Let’s
+                build something meaningful together.
               </Text>
-              <Text>Phone : +2349060998169</Text>
-              <Text>Email : Tayotomioyeniyi@gmail.com</Text>
+              <Text>
+                Phone:{" "}
+                <Text
+                  as="a"
+                  href="tel:+2349060998169"
+                  color="blue.500"
+                  textDecoration="underline"
+                >
+                  +234 906 099 8169
+                </Text>
+              </Text>
+              <Text>
+                Email:{" "}
+                <Text
+                  as="a"
+                  href="mailto:tayotomioyeniyi@gmail.com"
+                  color="blue.500"
+                  textDecoration="underline"
+                >
+                  tayotomioyeniyi@gmail.com
+                </Text>
+              </Text>
               <Box>
-                <Text> Find me in</Text>
+                <Text>Find me on</Text>
               </Box>
               <Icons />
             </VStack>
@@ -196,22 +236,20 @@ export const Contact = () => {
             maxW={{ lg: "lg" }}
             boxShadow={"base"}
           >
-            <Box as={"form"} mt={10}>
+            <Box as={"form"} mt={10} onSubmit={onSubmit}>
               <Box m={8} color="#0B0E3F">
                 <VStack spacing={5}>
-                  {InputField({ field: "name" })}
-                  {InputField({ field: "email" })}
-                  {InputField({ field: "message" })}
+                  <InputField field="name" />
+                  <InputField field="email" />
+                  <InputField field="message" />
 
                   <FormControl id="submit" float="right">
                     <Button
+                      type="submit"
                       color="#DCE2FF"
                       variant="solid"
                       bg="#0D74FF"
                       _hover={{}}
-                      onClick={() => {
-                        onSubmit();
-                      }}
                     >
                       Send Message
                     </Button>
@@ -219,7 +257,6 @@ export const Contact = () => {
                 </VStack>
               </Box>
             </Box>
-            form
           </Stack>
         </Container>
         <Blur

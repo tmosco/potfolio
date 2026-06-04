@@ -28,6 +28,9 @@ export const SocialButton = ({
       cursor={"pointer"}
       as={"a"}
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
       display={"inline-flex"}
       alignItems={"center"}
       justifyContent={"center"}
@@ -69,7 +72,7 @@ export const Icons = () => {
   return (
     <Stack direction={"row"} spacing={6}>
       {IconDetails.map((x, i) => (
-        <SocialButton label={x.name} href={x.link}>
+        <SocialButton key={`${x.name}-${i}`} label={x.name} href={x.link}>
           {x.icon}
         </SocialButton>
       ))}

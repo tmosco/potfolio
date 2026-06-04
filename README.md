@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Personal Portfolio
 
-## Getting Started
+A responsive developer portfolio built with Next.js, TypeScript, and Chakra UI to showcase projects, technical skills, experience, education, and contact information.
 
-First, run the development server:
+## Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Add your deployed URL here after publishing the site.
+
+## Tech Stack
+
+- Next.js 14
+- React 18
+- TypeScript
+- Chakra UI
+- Framer Motion
+
+## Features
+
+- Responsive single-page portfolio layout
+- Featured project showcase
+- Resume section for education, skills, and experience
+- Contact form with validation and email handoff
+- Downloadable resume
+- Social links and SEO-friendly metadata
+
+## Project Structure
+
+```text
+app/
+  components/
+  layout.tsx
+  page.tsx
+public/
+  download/resume.pdf
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running Locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Open `http://localhost:3000` in your browser.
 
-## Learn More
+## Build for Production
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## What I Improved
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Built reusable Chakra UI components for each section
+- Organized the app with the Next.js App Router
+- Added cleaner metadata for portfolio SEO and sharing
+- Improved form validation and contact reliability
+- Tightened content quality and external link safety
 
-## Deploy on Vercel
+## Future Improvements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Add dedicated case-study pages for featured projects
+- Add automated tests and CI checks
+- Replace the mailto contact flow with a server-backed form
+- Add a blog or writing section
+- Improve Lighthouse scores and social preview assets
