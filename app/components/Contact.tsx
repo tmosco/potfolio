@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Box,
   Button,
@@ -23,10 +24,9 @@ import {
 } from "@chakra-ui/react";
 import type { ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
+import { useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
-
-import { useState } from "react";
 import { Icons, TextHeadings } from ".";
 import ContactPic from "../../public/contact.jpg";
 
@@ -52,89 +52,132 @@ const Blur = (props: IconProps) => {
   );
 };
 
-type FieldsErrors = Partial<Record<keyof FormValues, boolean>>;
-
 type FormValues = {
   name: string;
   email: string;
   message: string;
+  company: string;
 };
+
+type FieldsErrors = Partial<Record<"name" | "email" | "message", boolean>>;
 
 const initialValues: FormValues = {
   name: "",
   email: "",
   message: "",
+  company: "",
 };
 
 export const Contact = () => {
   const [inputField, setInputField] = useState<FormValues>(initialValues);
   const [fieldErrors, setFieldErrors] = useState<FieldsErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const fieldsErrors: FieldsErrors = {};
-    let hasError = false;
-
-    const fieldsToValidate: (keyof FormValues)[] = [
+  const validateFields = () => {
+    const nextErrors: FieldsErrors = {};
+    const fieldsToValidate: ("name" | "email" | "message")[] = [
       "name",
       "email",
       "message",
     ];
 
     fieldsToValidate.forEach((field) => {
-      const value = inputField[field];
-      const isEmpty = !value || value.trim() === "";
-      fieldsErrors[field] = isEmpty;
-
-      if (isEmpty) {
-        hasError = true;
-      }
+      nextErrors[field] = inputField[field].trim() === "";
     });
 
-    setFieldErrors(fieldsErrors);
+    setFieldErrors(nextErrors);
+    return !Object.values(nextErrors).some(Boolean);
+  };
 
-    if (hasError) {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!validateFields()) {
       return;
     }
 
-    const subject = encodeURIComponent(`Portfolio inquiry from ${inputField.name}`);
-    const body = encodeURIComponent(
-      `Name: ${inputField.name}\nEmail: ${inputField.email}\n\n${inputField.message}`
-    );
+    setIsSubmitting(true);
 
-    window.location.href = `mailto:tayotomioyeniyi@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputField),
+      });
 
-    toast({
-      title: "Opening your email app",
-      description: "Your message is ready to send.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-    setInputField(initialValues);
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(
+          result.message ??
+            "Something went wrong while sending your message."
+        );
+      }
+
+      toast({
+        title: "Message sent",
+        description: "Thanks for reaching out — I’ll get back to you soon.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setInputField(initialValues);
+      setFieldErrors({});
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while sending your message.";
+
+      toast({
+        title: "Unable to send message",
+        description: message,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof FormValues
-  ): void => {
+  ) => {
     setInputField((prevInputField) => ({
       ...prevInputField,
-      [field]: e.target.value,
+      [field]: event.target.value,
     }));
-    setFieldErrors((prevErrors) => ({
-      ...prevErrors,
-      [field]: false,
-    }));
+
+    if (field !== "company") {
+      setFieldErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: false,
+      }));
+    }
   };
 
-  function InputField({ field }: { field: keyof FormValues }) {
+  const InputField = ({ field }: { field: "name" | "email" | "message" }) => {
+    const isMessage = field === "message";
+
     return (
       <FormControl id={field} isRequired isInvalid={fieldErrors[field]}>
-        <FormLabel>{field}</FormLabel>
-        {field !== "message" ? (
+        <FormLabel textTransform="capitalize">{field}</FormLabel>
+        {isMessage ? (
+          <Textarea
+            borderColor="gray.300"
+            _hover={{
+              borderColor: "gray.400",
+            }}
+            placeholder="Tell me a bit about your project or opportunity"
+            value={inputField[field]}
+            onChange={(event) => handleInputChange(event, field)}
+          />
+        ) : (
           <InputGroup borderColor="#E0E1E7">
             <InputLeftElement pointerEvents="none">
               {field === "name" ? (
@@ -146,27 +189,17 @@ export const Contact = () => {
             <Input
               value={inputField[field]}
               type={field === "email" ? "email" : "text"}
-              onChange={(e) => handleInputChange(e, field)}
+              onChange={(event) => handleInputChange(event, field)}
               size="md"
             />
           </InputGroup>
-        ) : (
-          <Textarea
-            borderColor="gray.300"
-            _hover={{
-              borderColor: "gray.400",
-            }}
-            placeholder="Message"
-            value={inputField[field]}
-            onChange={(e) => handleInputChange(e, field)}
-          />
         )}
-        {fieldErrors[field] && (
+        {fieldErrors[field] ? (
           <FormErrorMessage>{`${field} is required.`}</FormErrorMessage>
-        )}
+        ) : null}
       </FormControl>
     );
-  }
+  };
 
   return (
     <>
@@ -182,7 +215,12 @@ export const Contact = () => {
           py={{ base: 10, sm: 20, lg: 10 }}
         >
           <Box>
-            <Image src={ContactPic} alt="contact" height={400} width={400} />
+            <Image
+              src={ContactPic}
+              alt="Omotayo Oyeniyi portrait"
+              height={400}
+              width={400}
+            />
 
             <VStack
               w="400px"
@@ -202,25 +240,25 @@ export const Contact = () => {
               </Text>
               <Text>
                 Phone:{" "}
-                <Text
+                <Box
                   as="a"
                   href="tel:+2349060998169"
                   color="blue.500"
                   textDecoration="underline"
                 >
                   +234 906 099 8169
-                </Text>
+                </Box>
               </Text>
               <Text>
                 Email:{" "}
-                <Text
+                <Box
                   as="a"
                   href="mailto:tayotomioyeniyi@gmail.com"
                   color="blue.500"
                   textDecoration="underline"
                 >
                   tayotomioyeniyi@gmail.com
-                </Text>
+                </Box>
               </Text>
               <Box>
                 <Text>Find me on</Text>
@@ -228,6 +266,7 @@ export const Contact = () => {
               <Icons />
             </VStack>
           </Box>
+
           <Stack
             bg={"gray.50"}
             rounded={"xl"}
@@ -241,11 +280,24 @@ export const Contact = () => {
                 <VStack spacing={5}>
                   <InputField field="name" />
                   <InputField field="email" />
+                  <Input
+                    type="text"
+                    value={inputField.company}
+                    onChange={(event) => handleInputChange(event, "company")}
+                    autoComplete="off"
+                    tabIndex={-1}
+                    position="absolute"
+                    opacity={0}
+                    pointerEvents="none"
+                    aria-hidden="true"
+                  />
                   <InputField field="message" />
 
                   <FormControl id="submit" float="right">
                     <Button
                       type="submit"
+                      isLoading={isSubmitting}
+                      loadingText="Sending"
                       color="#DCE2FF"
                       variant="solid"
                       bg="#0D74FF"
@@ -254,11 +306,17 @@ export const Contact = () => {
                       Send Message
                     </Button>
                   </FormControl>
+                  <Text fontSize="sm" color="gray.500" textAlign="center">
+                    Messages are submitted to a server endpoint. If email
+                    delivery is not configured yet, you’ll get a direct email
+                    fallback message.
+                  </Text>
                 </VStack>
               </Box>
             </Box>
           </Stack>
         </Container>
+
         <Blur
           position={"absolute"}
           top={-10}
