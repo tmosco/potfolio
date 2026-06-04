@@ -10,11 +10,11 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Omotayo Oyeniyi | Software Developer",
+  title: "Omotayo Oyeniyi | Full-Stack Software Engineer",
   description:
-    "Portfolio of Omotayo Oyeniyi, a software developer building responsive, accessible, and maintainable web applications with React, Next.js, and TypeScript.",
+    "Portfolio of Omotayo Oyeniyi, a full-stack software engineer with 7+ years of experience across React, Node.js, Python, Docker, CI/CD, and production systems.",
   openGraph: {
-    title: "Omotayo Oyeniyi | Software Developer",
+    title: "Omotayo Oyeniyi | Full-Stack Software Engineer",
     description:
       "Explore projects, experience, skills, and contact information for Omotayo Oyeniyi.",
     siteName: "Omotayo Oyeniyi Portfolio",

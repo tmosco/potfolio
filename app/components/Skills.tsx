@@ -11,17 +11,22 @@ import {
 } from "@chakra-ui/react";
 
 const skills = [
-  { name: "HTML", percent: 95, type: "front-end" },
-  { name: "CSS", percent: 90, type: "front-end" },
-  { name: "JAVASCRIPT", percent: 85, type: "front-end" },
-  { name: "REACT", percent: 95, type: "front-end" },
-  { name: "TYPESCRIPT", percent: 90, type: "front-end" },
-  { name: "SASS/ SCSS", percent: 75, type: "front-end" },
-  { name: "TAILWIND CSS", percent: 80, type: "front-end" },
-  { name: "NEXT JS", percent: 90, type: "front-end" },
-  { name: "NODE JS", percent: 82, type: "back-end" },
-  { name: "MONGODB", percent: 80, type: "back-end" },
-  { name: "PYTHON", percent: 83, type: "back-end" },
+  { name: "React", percent: 95, type: "front-end" },
+  { name: "TypeScript", percent: 92, type: "front-end" },
+  { name: "JavaScript", percent: 90, type: "front-end" },
+  { name: "React Native", percent: 82, type: "front-end" },
+  { name: "Tailwind CSS", percent: 84, type: "front-end" },
+  { name: "Storybook", percent: 85, type: "front-end" },
+  { name: "Python", percent: 88, type: "back-end" },
+  { name: "Node.js", percent: 90, type: "back-end" },
+  { name: "Django", percent: 82, type: "back-end" },
+  { name: "Express.js", percent: 86, type: "back-end" },
+  { name: "PostgreSQL", percent: 85, type: "back-end" },
+  { name: "MongoDB", percent: 80, type: "back-end" },
+  { name: "Docker", percent: 90, type: "systems" },
+  { name: "Linux / Unix", percent: 88, type: "systems" },
+  { name: "Jenkins / GitLab CI", percent: 84, type: "systems" },
+  { name: "Bash Scripting", percent: 78, type: "systems" },
 ];
 
 export const SkillProgress = ({
@@ -68,14 +73,19 @@ export const Skills = () => {
         py={{ base: 10, sm: 20, lg: 32 }}
       >
         <Box>
-          <Text> Features</Text>
-          <Heading> Front-end Skills</Heading>
+          <Text>Frontend</Text>
+          <Heading>UI & Client-Side</Heading>
           {renderSkills("front-end")}
         </Box>
         <Box>
-          <Text> Features</Text>
-          <Heading> Back-end Skills</Heading>
+          <Text>Backend</Text>
+          <Heading>API & Services</Heading>
           {renderSkills("back-end")}
+        </Box>
+        <Box gridColumn={{ md: "1 / span 2" }}>
+          <Text>Systems</Text>
+          <Heading>DevOps & Tooling</Heading>
+          {renderSkills("systems")}
         </Box>
       </Container>
     </>

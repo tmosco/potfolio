@@ -27,22 +27,22 @@ export const projects: Project[] = [
     image: TstoryBook,
     website: "https://design-system.tuteria.com/",
     summary:
-      "A design system showcase for Tuteria with reusable UI patterns and component documentation.",
+      "A Storybook-powered design system used to document and standardize reusable UI patterns for Tuteria teams.",
     stack: ["React", "TypeScript", "Storybook", "Design Systems"],
-    role: "Frontend developer contributing to shared UI consistency.",
+    role: "Software developer contributing to reusable component standards.",
     problem:
-      "Product teams needed a clearer shared reference for interface patterns and reusable components.",
+      "Product teams needed a reliable shared reference for interface patterns, component states, and implementation guidelines.",
     solution:
-      "Built and organized a design-system experience that made components, states, and usage patterns easier to browse and reuse.",
+      "Organized and maintained reusable UI patterns in a browsable system that helped improve consistency across product work.",
     challenge:
-      "The main challenge was keeping documentation useful for both designers and developers while maintaining consistency across components.",
+      "The challenge was keeping design documentation useful for both engineers and designers while supporting real product delivery.",
     outcome: [
       "Improved discoverability of shared UI patterns.",
-      "Made component reuse easier across product work.",
-      "Created a cleaner reference point for visual consistency.",
+      "Supported faster frontend delivery through reuse.",
+      "Created a cleaner source of truth for product consistency.",
     ],
     nextStep:
-      "Expand the case study with contribution screenshots and examples of component decisions.",
+      "Add screenshots and contribution notes that show how the system improved implementation quality.",
   },
   {
     slug: "tuteria",
@@ -50,22 +50,22 @@ export const projects: Project[] = [
     image: Tuteria,
     website: "https://tutors.tuteria.com/",
     summary:
-      "A tutoring platform experience focused on helping learners discover and connect with qualified tutors.",
-    stack: ["React", "TypeScript", "Responsive UI", "Product Design"],
-    role: "Frontend engineer improving learner-facing experiences.",
+      "An EdTech platform serving 50,000+ registered users, where I contributed to reusable frontend features and delivery workflows.",
+    stack: ["React", "TypeScript", "Node.js", "PostgreSQL"],
+    role: "Software developer working across product features, CI/CD, and production support.",
     problem:
-      "Users needed a smoother way to explore tutoring options and move through the platform with confidence.",
+      "A growing education marketplace needed reliable release workflows, reusable components, and stable user-facing features.",
     solution:
-      "Delivered interface improvements that focused on clarity, navigation, and a more approachable learning marketplace experience.",
+      "Built and maintained platform features, reusable component libraries, and engineering workflows that improved release quality and team efficiency.",
     challenge:
-      "Balancing usability improvements with the realities of an existing product and live user experience required careful iteration.",
+      "The hardest part was balancing ongoing product delivery with production incident response and continuous improvement across CI/CD and platform stability.",
     outcome: [
-      "Improved clarity across the tutor discovery flow.",
-      "Supported a more polished and approachable user experience.",
-      "Contributed to a more maintainable frontend surface.",
+      "Supported a platform serving 50,000+ users.",
+      "Reduced deployment friction with better CI/CD workflows.",
+      "Resolved 30+ production incidents across an 18-month period.",
     ],
     nextStep:
-      "Document concrete metrics, UI decisions, and before-and-after screens for stronger hiring proof.",
+      "Expand this case study with screenshots and more specific examples of feature ownership.",
   },
   {
     slug: "bot-trader-design-system",
@@ -73,19 +73,19 @@ export const projects: Project[] = [
     image: TstoryBook,
     website: "https://design-system.beeola.me/",
     summary:
-      "A design system reference for the Bot Trader product, highlighting the UI components and patterns used across the app.",
-    stack: ["React", "Storybook", "Component Libraries", "Design Systems"],
-    role: "Frontend developer shaping reusable product UI patterns.",
+      "A component and design reference for the BotTrader product, used to support faster and more consistent trading UI development.",
+    stack: ["React", "Storybook", "TypeScript", "Design Systems"],
+    role: "Full-stack developer shaping reusable frontend patterns.",
     problem:
       "The product needed a central source of truth for UI components to reduce duplication and improve consistency.",
     solution:
-      "Structured a browsable design-system reference that documented core UI building blocks and usage patterns.",
+      "Structured a browsable design-system reference that documented the core UI building blocks and patterns used across the app.",
     challenge:
       "Trading products often have dense interfaces, so the challenge was keeping component patterns consistent without slowing product delivery.",
     outcome: [
       "Reduced ambiguity around component usage.",
-      "Created a reusable reference for faster frontend work.",
-      "Improved consistency across the product experience.",
+      "Created a reusable reference for faster UI delivery.",
+      "Improved consistency across trading experiences.",
     ],
     nextStep:
       "Add examples showing how design-system decisions mapped to production screens.",
@@ -96,8 +96,8 @@ export const projects: Project[] = [
     image: TuteriaVTwo,
     website: "https://v2.tuteria.com/",
     summary:
-      "A refreshed tutoring platform built to improve discovery, usability, and the overall learning experience.",
-    stack: ["Next.js", "TypeScript", "Responsive Design", "Frontend Architecture"],
+      "A refreshed tutoring experience focused on clearer navigation, stronger usability, and a more modern product presentation.",
+    stack: ["React", "TypeScript", "Responsive Design", "Frontend Architecture"],
     role: "Frontend developer contributing to a more modern product experience.",
     problem:
       "A newer platform version needed a cleaner, more intuitive experience for both exploration and engagement.",
@@ -119,22 +119,22 @@ export const projects: Project[] = [
     image: BotTrader,
     website: "https://app-dev.beeola.me/#/home",
     summary:
-      "A trading application for managing futures activity across BTC and other digital assets.",
-    stack: ["React", "TypeScript", "Trading UI", "State Management"],
-    role: "Frontend developer working on product interface and usability.",
+      "A real-time trading dashboard serving 500+ active users, built across React frontend and Python-backed services.",
+    stack: ["React", "Python", "TypeScript", "Financial APIs"],
+    role: "Full-stack developer working across frontend, backend integrations, and technical documentation.",
     problem:
-      "Users needed a focused interface for interacting with complex trading flows and high-signal data.",
+      "Users needed timely access to trading data and a UI that could support high-context, fast-moving financial workflows.",
     solution:
-      "Built and refined product screens with an emphasis on clarity, UI reuse, and smoother interaction design.",
+      "Built and maintained dashboard experiences, integrated external financial APIs, and documented the data flow architecture supporting the product.",
     challenge:
-      "Financial interfaces can become visually dense very quickly, so the challenge was making critical information easier to scan and act on.",
+      "The main challenge was reducing cross-service bugs and latency while keeping the trading experience usable and reliable.",
     outcome: [
-      "Improved UI consistency across trading flows.",
-      "Supported a more usable product experience for high-context actions.",
-      "Strengthened reusable frontend patterns within the app.",
+      "Supported 500+ active users with real-time dashboard functionality.",
+      "Integrated 3 external financial APIs.",
+      "Reduced latency on important dashboard views through bug fixes and integration improvements.",
     ],
     nextStep:
-      "Add more concrete technical details around data handling, interaction patterns, and component structure.",
+      "Add architecture visuals and more detail on backend service coordination.",
   },
 ];
 

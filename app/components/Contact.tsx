@@ -232,11 +232,12 @@ export const Contact = () => {
               <Heading lineHeight={1.1} fontSize={"4xl"}>
                 Omotayo Oyeniyi
               </Heading>
-              <Text>Full stack Developer</Text>
+              <Text>Full-Stack Software Engineer</Text>
               <Text>
-                I build thoughtful web experiences with a strong focus on
-                usability, maintainable code, and polished interfaces. Let’s
-                build something meaningful together.
+                I build production-ready systems across frontend, backend, and
+                DevOps workflows — from React interfaces to Python and Node.js
+                services, Docker environments, CI/CD pipelines, and technical
+                documentation.
               </Text>
               <Text>
                 Phone:{" "}
@@ -307,9 +308,9 @@ export const Contact = () => {
                     </Button>
                   </FormControl>
                   <Text fontSize="sm" color="gray.500" textAlign="center">
-                    Messages are submitted to a server endpoint. If email
-                    delivery is not configured yet, you’ll get a direct email
-                    fallback message.
+                    Need help with full-stack delivery, CI/CD, containerized
+                    deployments, or frontend architecture? Send a message and
+                    let&apos;s talk.
                   </Text>
                 </VStack>
               </Box>

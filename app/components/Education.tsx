@@ -14,19 +14,14 @@ import {
 
 const EducationDetails = [
   {
-    title: "Masters in Information Technology",
+    title: "MSc, Information Technology for the Oil and Gas Industry",
     school: "Robert Gordon University",
-    date: "2015 - 2016",
+    date: "February 2015 - June 2016",
   },
   {
-    title: "B.Sc in Petroleum Engineering",
+    title: "BSc, Petroleum Engineering",
     school: "University of Ibadan",
-    date: "2007 - 2012",
-  },
-  {
-    title: "Secondary School Education",
-    school: "Lighthouse International School",
-    date: "2000 - 2006",
+    date: "November 2007 - December 2012",
   },
 ];
 const CertificateDetails = [
@@ -34,6 +29,11 @@ const CertificateDetails = [
     title: "The Complete 2023 Web Development Bootcamp",
     school: "Udemy",
     date: "2023",
+  },
+  {
+    title: "Hands-on Production Experience with CI/CD, Docker, and Linux",
+    school: "Professional Practice",
+    date: "2017 - Present",
   },
 ];
 

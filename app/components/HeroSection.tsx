@@ -15,8 +15,8 @@ import {
 export const HeroSection = () => {
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/download/resume.pdf";
-    link.download = "omotayo-oyeniyi-resume.pdf";
+    link.href = "/download/OyeniyiOmotayo_cv.pdf";
+    link.download = "OyeniyiOmotayo_cv.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -38,14 +38,15 @@ export const HeroSection = () => {
             Hi, I&apos;m Omotayo Oyeniyi.
             <br />
             <Text as={"span"} color={"green.400"}>
-              A Software Developer
+              A Full-Stack Software Engineer
             </Text>
           </Heading>
           <Text color={"gray.500"}>
-            I build responsive, accessible, and maintainable web applications
-            with React, Next.js, TypeScript, and modern UI tools. I enjoy
-            turning ideas into clean interfaces, reusable components, and
-            production-ready user experiences.
+            I&apos;m a full-stack engineer with 7+ years of experience building
+            production systems across React, Node.js, Python, Docker, CI/CD,
+            and Linux environments. I enjoy shipping reliable products, writing
+            clear technical documentation, and solving complex problems across
+            the stack.
           </Text>
           <Stack
             direction={{ base: "column", sm: "row" }}
@@ -73,7 +74,7 @@ export const HeroSection = () => {
               }}
               onClick={handleDownload}
             >
-              Download Resume
+              Download CV
             </Button>
 
             <Box>
@@ -93,7 +94,7 @@ export const HeroSection = () => {
                 top={"-15px"}
                 transform={"rotate(10deg)"}
               >
-                Resume download
+                CV download
               </Text>
             </Box>
           </Stack>
